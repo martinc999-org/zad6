@@ -4,7 +4,7 @@ using namespace std;
 
 void wczytaj_tablice(const int size, int tab[]) {
 
-    int tmp[] = {0,1,2,3,4,5,6,7,8,9};
+    int tmp[] = {0,1,2,3,4,5,6,7,8,14};
     for(int i = 0; i < size; i++)
     {
         //cin>>tab[i];
@@ -40,20 +40,21 @@ int liczbaJedynek(int tab[], const int size)
      * 5 sprawdzam czy liczba jedynek jest wieksza niż wartość tymczasowa(najwieksza ilosc jedynek)
      * 6 Jak tak to wynik ustawiam na sprawdzany element tablicy i aktualizuje wartość tymczasowa
      */
-    int wynik = tab[0];
-    int tmp = 0;
-    int counter = 0;
-    unsigned int mask = 0x80000000;
+    int max_value = -1;
+    int max_index;
+
     for(int i = 0; i < size; i++) {
-        for (mask; mask <= 0; mask = mask >> 1) {
+        int counter = 0;
+        for (unsigned int mask = 0x80000000; mask > 0; mask = mask >> 1) {
             if (mask&tab[i])
                 counter++;
         }
-        if(counter>tmp)
-            wynik = tab[i];
-            tmp = counter;
+        if(counter>max_value) {
+            max_value = counter;
+            max_index = i;
+        }
     }
-    return wynik;
+    return max_index;
 }
 
 int liczbaWystapien(int a,int b)
