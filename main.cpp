@@ -2,6 +2,16 @@
 
 using namespace std;
 
+void wczytaj_tablice(const int size, int tab[]) {
+
+    int tmp[] = {0,1,2,3,4,5,6,7,8,9};
+    for(int i = 0; i < size; i++)
+    {
+        //cin>>tab[i];
+        tab[i] = tmp[i];
+    }
+}
+
 void zamianaElementow(int *tab, const int size)
 {
     //wydaje mi się, że program powinien być dobry, jednak nie wiem dlaczego po wywołaniu funkcji pomijana jest pętla, która odpowiada za zamiane miejsc
@@ -81,19 +91,15 @@ int liczbaWystapien(int a,int b)
 int main() {
 
     int choice=1;
-    //cin>>choice;
-
+    cin>>choice;
 
     switch(choice)
     {
         case 1:
         {
             const int size = 10;
-            int tab[size] = {0,1,2,3,4,5,6,7,8,9};
-//            for(int i = 0; i < 10; i++)
-//            {
-//                cin>>tab[i];
-//            }
+            int tab[size];
+            wczytaj_tablice(size, tab);
             zamianaElementow(tab,size);
             break;
         }
@@ -101,10 +107,7 @@ int main() {
         {
             const int size = 10;
             int tab[size];
-            for(int i = 0; i < size; i++)
-            {
-                cin>>tab[i];
-            }
+            wczytaj_tablice(size, tab);
             int wynik = liczbaJedynek(tab,size);
             cout<<wynik;
             break;
@@ -122,3 +125,4 @@ int main() {
 
     return 0;
 }
+
