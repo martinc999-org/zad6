@@ -2,6 +2,31 @@
 
 using namespace std;
 
+void print_binary(int number) {
+
+    unsigned int mask_tmp = 0x80000000;
+    bool start = false;
+
+    int count = 0;
+    for(unsigned int mask = 0x80000000; mask >= 1; mask = mask >> 1) //Tworzę maskę w postaci 1000 ... 0000, którą co każdą iterację przesuwam o 1 miejsce w prawo, żeby przejrzeć wszystkie bity w liczbie
+    {
+        if(mask & number) start = true; //W momencie, gdy maska spotka pierwszą jedynkę zmeinną bool ustawiam na true w ten sposób mogę pominąć wiodące zera
+        if((mask & number) && start == true) {cout << 1; count++;}//Sprawdzam warunek koniunkcji maski i liczby, ktorą chce zapisac w formie binarnej równocześnie sprawdzając czy zmienna bool ustawiona jest na wartosc true, jeżeli tak zapisuje pierwszą jedynkę bez wiodących zer
+        if(!(mask & number) && start == true) {cout << 0; count++;} //
+    }
+    printf("\nbinary: %d\n",count);
+}
+
+void print_binary(int tab[], int size) {
+
+    for(int i = size-1; i >= 0; i--)
+    {
+        cout<<tab[i]<<" ";
+    }
+    cout<<"\n";
+
+}
+
 void wczytaj_tablice(const int size, int tab[]) {
 
     int tmp[] = {0,1,2,3,4,5,6,7,8,14};
@@ -57,36 +82,51 @@ int liczbaJedynek(int tab[], const int size)
     return max_index;
 }
 
-int liczbaWystapien(int a,int b)
+int liczbaWystapien(int a,int wzorzec)
 {
     /*
-     * Tworze maske i bez wiodących zer wpisuje sekwencje bitową do zmiennej typu string dla int a oraz int b
-     * Nastepnie zakladajac, ze liczba A jest wzorcem porównuje ją z liczbą b
+     * Tworze maske i bez wiodących zer wpisuje sekwencje bitową do zmiennej typu string dla int a oraz int wzorzec
+     * Nastepnie zakladajac, ze liczba A jest wzorcem porównuje ją z liczbą wzorzec
      * Chociaż nie koniecznie musi tak być, bo liczba B może mieć np. 101, a liczba A 10101 i wtedy to liczba B jest wzorcem
      * Nie wiem do końca czy to jest dobre podejście do tego problemu, ale nic lepszego nie prztchodzi mi do głowy :(
      */
-    string number_a, number_b;
+    int a_bin[32], wzorzec_bin[32];
     bool start = false;
-    unsigned int mask = 0x80000000;
-    int i,j = 0;
-    for(mask; mask <=0; mask = mask >> 1)
+    unsigned int mask = 1;
+    int i = 0;
+    for(mask; mask > 0; mask = mask << 1)
     {
-        if(mask & a ) start = true;
+        if(mask & a)
+            a_bin[i] = 1;
+        else
+            a_bin[i] = 0;
 
-        if((mask & a) && start == true);
-            number_a[i] = 1;
-            i++;
-        if((mask & b) && start == true);
-            number_b[j] = 1;
-            j++;
-        if(!(mask & a) && start == true);
-            number_a[i] = 0;
-            i++;
-        if(!(mask & b) && start == true);
-            number_b[j] = 0;
-            j++;
+        if(mask & wzorzec)
+            wzorzec_bin[i] = 1;
+        else
+            wzorzec_bin[i] = 0;
+        i++;
     }
+    int j = 32;
+    for (j=31; wzorzec_bin[j]==0 && j>=0; j--);
+    int wzorzec_length = j + 1;
 
+    print_binary(a_bin, 32);
+    print_binary(wzorzec_bin, 32);
+
+    int count = 0;
+    for (int k=0; k < 32 - wzorzec_length + 1; k++) {
+        int l = 0;
+        for (l=0; l < wzorzec_length; l++) {
+            if (a_bin[k+l] != wzorzec_bin[l])
+                break;
+        }
+
+        if (l == wzorzec_length)
+            count++;
+
+    }
+    cout<< count <<" ";
 }
 
 int main() {
@@ -116,8 +156,8 @@ int main() {
         case 3:
         {
             int a,b;
-            cin>>a>>b;
-            liczbaWystapien(a,b);
+            //cin>>a>>b;
+            liczbaWystapien(0xA8E8D2AC,5);
 
             break;
         }
