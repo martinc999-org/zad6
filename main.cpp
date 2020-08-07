@@ -6,7 +6,8 @@ void zamianaElementow(int *tab, const int size)
 {
     //wydaje mi się, że program powinien być dobry, jednak nie wiem dlaczego po wywołaniu funkcji pomijana jest pętla, która odpowiada za zamiane miejsc
     //i zaczyna się od indexu 0, a j od indexu 9, i rośnie, a j maleje
-    for(int i = 0, j = size - 1; i < size, j <= 0; i++, j--)
+
+    for(int i = 0, j = size - 1; i < size / 2 ; i++, j--)
     {
         int tmp = tab[i];
         tab[i] = tab[j];
@@ -79,19 +80,20 @@ int liczbaWystapien(int a,int b)
 
 int main() {
 
-    int choice;
-    cin>>choice;
+    int choice=1;
+    //cin>>choice;
+
 
     switch(choice)
     {
         case 1:
         {
             const int size = 10;
-            int tab[size];
-            for(int i = 0; i < 10; i++)
-            {
-                cin>>tab[i];
-            }
+            int tab[size] = {0,1,2,3,4,5,6,7,8,9};
+//            for(int i = 0; i < 10; i++)
+//            {
+//                cin>>tab[i];
+//            }
             zamianaElementow(tab,size);
             break;
         }
