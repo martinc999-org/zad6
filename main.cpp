@@ -14,7 +14,8 @@ void print_binary(int number) {
         if((mask & number) && start == true) {cout << 1; count++;}//Sprawdzam warunek koniunkcji maski i liczby, ktorą chce zapisac w formie binarnej równocześnie sprawdzając czy zmienna bool ustawiona jest na wartosc true, jeżeli tak zapisuje pierwszą jedynkę bez wiodących zer
         if(!(mask & number) && start == true) {cout << 0; count++;} //
     }
-    printf("\nbinary: %d\n",count);
+    //printf("\nbinary: %d\n",count);
+    cout << "\n";
 }
 
 void print_binary(int tab[], int size) {
@@ -27,6 +28,7 @@ void print_binary(int tab[], int size) {
 
 }
 
+
 void wczytaj_tablice(const int size, int tab[]) {
 
     int tmp[] = {0,1,2,3,4,5,6,7,8,14};
@@ -36,6 +38,23 @@ void wczytaj_tablice(const int size, int tab[]) {
         tab[i] = tmp[i];
     }
 }
+
+
+
+// Function to extract k bits from p position
+// and returns the extracted value as integer
+//int number = 171, k = 5, p = 2;
+//print_binary(171);
+//printf("The extracted number is %d\n", bitExtracted(number, k, p));
+//print_binary(21);
+
+int bitExtracted(int number, int k, int p)
+{
+    return (((1 << k) - 1) & (number >> (p - 1)));
+}
+
+// Driver code
+
 
 void zamianaElementow(int *tab, const int size)
 {
@@ -90,6 +109,7 @@ int liczbaWystapien(int a,int wzorzec)
      * Chociaż nie koniecznie musi tak być, bo liczba B może mieć np. 101, a liczba A 10101 i wtedy to liczba B jest wzorcem
      * Nie wiem do końca czy to jest dobre podejście do tego problemu, ale nic lepszego nie prztchodzi mi do głowy :(
      */
+
     int a_bin[32], wzorzec_bin[32];
     bool start = false;
     unsigned int mask = 1;
@@ -126,8 +146,38 @@ int liczbaWystapien(int a,int wzorzec)
             count++;
 
     }
-    cout<< count <<" ";
+    cout<< count <<"\n";
+
 }
+
+int liczbaWystapien2(int a,int wzorzec) {
+
+    int wzorzec_length = 32;
+    cout << "wzorzec: ";
+    print_binary(wzorzec);
+    for(unsigned int mask1 = 0x80000000; mask1 >= 1; mask1 = mask1 >> 1)
+    {
+        if(mask1 & wzorzec) break;
+        wzorzec_length--;
+    }
+
+    int count2 = 0;
+    int mask = 0;
+    for (int t = 32 - wzorzec_length; t >= 0; t--) {
+        if (wzorzec_length==32)
+            mask = wzorzec;
+        else
+            mask = (((1 << wzorzec_length) - 1) & (a)); //bitExtracted(a, wzorzec_length, 1);
+        //print_binary(tmp);
+        if (mask == wzorzec) {
+            count2++;
+        }
+
+        a = a >> 1;
+    }
+    cout << count2 << "\n";
+}
+
 
 int main() {
 
@@ -158,6 +208,7 @@ int main() {
             int a,b;
             //cin>>a>>b;
             liczbaWystapien(0xA8E8D2AC,5);
+            liczbaWystapien2(0xA8E8D2AC,5);
 
             break;
         }
