@@ -99,7 +99,7 @@ int liczbaJedynek(int tab[], const int size)
             max_index = i;
         }
     }
-    return max_index;
+    return tab[max_index];
 }
 
 int liczbaWystapien(int a,int wzorzec)
