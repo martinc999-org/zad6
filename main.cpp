@@ -1,4 +1,5 @@
 #include <iostream>
+#include <time.h>
 
 using namespace std;
 
@@ -109,7 +110,7 @@ int liczbaWystapien(int a,int wzorzec)
      * Chociaż nie koniecznie musi tak być, bo liczba B może mieć np. 101, a liczba A 10101 i wtedy to liczba B jest wzorcem
      * Nie wiem do końca czy to jest dobre podejście do tego problemu, ale nic lepszego nie prztchodzi mi do głowy :(
      */
-
+    clock_t begin = clock();
     int a_bin[32], wzorzec_bin[32];
     bool start = false;
     unsigned int mask = 1;
@@ -146,19 +147,26 @@ int liczbaWystapien(int a,int wzorzec)
             count++;
 
     }
-    cout<< count <<"\n";
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
+    cout<< "liczbaWystapien: " << count <<"\n";
+    printf("time: %.6f\n",time_spent);
 }
 
 int liczbaWystapien2(int a,int wzorzec) {
 
+    clock_t begin = clock();
+    /* here, do your time-consuming job */
+
     int wzorzec_length = 32;
     cout << "wzorzec: ";
     print_binary(wzorzec);
-    for(unsigned int mask1 = 0x80000000; mask1 >= 1; mask1 = mask1 >> 1)
+    unsigned int mask1 = 0x80000000;
+    while ((mask1 >= 1) && !(mask1 & wzorzec))
     {
-        if(mask1 & wzorzec) break;
         wzorzec_length--;
+        mask1 = mask1 >> 1;
     }
 
     int count2 = 0;
@@ -175,7 +183,11 @@ int liczbaWystapien2(int a,int wzorzec) {
 
         a = a >> 1;
     }
-    cout << count2 << "\n";
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
+    cout << "liczbaWystapien2: " << count2 << "\n";
+    printf("time: %.6f\n",time_spent);
 }
 
 
