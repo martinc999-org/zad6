@@ -9,11 +9,11 @@ void print_binary(int number) {
     bool start = false;
 
     int count = 0;
-    for(unsigned int mask = 0x80000000; mask >= 1; mask = mask >> 1) //Tworzę maskę w postaci 1000 ... 0000, którą co każdą iterację przesuwam o 1 miejsce w prawo, żeby przejrzeć wszystkie bity w liczbie
+    for(unsigned int mask = 0x80000000; mask >= 1; mask = mask >> 1)
     {
-        if(mask & number) start = true; //W momencie, gdy maska spotka pierwszą jedynkę zmeinną bool ustawiam na true w ten sposób mogę pominąć wiodące zera
-        if((mask & number) && start == true) {cout << 1; count++;}//Sprawdzam warunek koniunkcji maski i liczby, ktorą chce zapisac w formie binarnej równocześnie sprawdzając czy zmienna bool ustawiona jest na wartosc true, jeżeli tak zapisuje pierwszą jedynkę bez wiodących zer
-        if(!(mask & number) && start == true) {cout << 0; count++;} //
+        if(mask & number) start = true;
+        if((mask & number) && start == true) {cout << 1; count++;}
+        if(!(mask & number) && start == true) {cout << 0; count++;}
     }
     //printf("\nbinary: %d\n",count);
     cout << "\n";
